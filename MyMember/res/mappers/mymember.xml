@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mymember">
+
+	<insert id="insertMember" parameterType="vo.MyMemberVO">
+		insert into mymember
+		(mem_id, mem_pass, mem_name, mem_tel, mem_addr, mem_photo)
+		values(#{memId},
+			 	#{memPass},
+			 	#{memName},
+			 	#{memTel},
+			 	#{memAddr},
+			 	#{memPhoto}
+			 )
+	</insert>
+
+
+	<update id="updateMember" parameterType="vo.MyMemberVO">
+		update mymember
+    	set
+		    <if test='memPass != null'> mem_pass = #{memPass}, </if>
+		    <if test='memTel != null'> mem_tel = #{memTel}, </if>
+		    <if test='memName != null'> mem_name = #{memName}, </if>
+		    <if test='memAddr != null'> mem_addr = #{memAddr}, </if>
+		    <if test='memPhoto != null'> mem_photo = #{memPhoto} </if>
+		    where mem_id = #{memId}
+	</update>
+
+
+	<select id="getMember" parameterType="String" resultType="vo.MyMemberVO">
+		select	mem_id as memId
+			, mem_pass as memPass
+			, mem_name as memName
+			, mem_tel as memTel
+			, mem_addr as memAddr
+			, mem_photo as memPhoto
+		from mymember
+		where mem_id = #{memId}
+	</select>
+	
+	
+	<select id="checkMember" parameterType="String" resultType="int">
+		select count(*) as cnt
+		from mymember
+		where mem_id = #{memId}
+	</select>
+
+
+	<delete id="deleteMember" parameterType="String">
+		delete from mymember 
+		where mem_id = #{memId}
+	</delete>
+	
+	
+	<select id="selectAll" resultType="vo.MyMemberVO">
+		select	mem_id as memId
+			, mem_pass as memPass
+			, mem_name as memName
+			, mem_tel as memTel
+			, mem_addr as memAddr
+		from mymember
+		order by mem_id asc
+	</select>
+
+</mapper>
